@@ -14,10 +14,6 @@
       {
         "src": "/api/user/(.*)",
         "dest": "/index.js"
-      },
-      {
-        "src": "/",
-        "dest": "/index.js" // เส้นทางหลัก
       }
     ]
   }
