@@ -1,20 +1,34 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "index.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/users",
-        "dest": "/index.js"
-      },
-      {
-        "src": "/api/user/(.*)",
-        "dest": "/index.js"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/users",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/user/(.*)",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/user",
+      "methods": ["POST"],
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/user/(.*)",
+      "methods": ["PUT", "PATCH"],
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/user/(.*)",
+      "methods": ["DELETE"],
+      "dest": "/index.js"
+    }
+  ]
+}
