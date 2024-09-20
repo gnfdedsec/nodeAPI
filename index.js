@@ -15,7 +15,7 @@ app.use(cors());
 
 // เส้นทางหลัก (root path)
 app.get('/', (req, res) => {
-  res.send('Hello from the Node.js backend!');
+  res.send('Hello from the Node.js backend form supabase!');
 });
 
 // เส้นทางสำหรับ API
