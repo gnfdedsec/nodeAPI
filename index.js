@@ -12,6 +12,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ใช้งาน cors middleware
 app.use(cors());
+// ตั้งค่า middleware สำหรับอ่าน JSON body
+app.use(express.json());
+
 
 // เส้นทางหลัก (root path)
 app.get('/', (req, res) => {
