@@ -47,6 +47,8 @@ app.get('/api/user/:id', async (req, res) => {
 });
 app.post('/api/user', async (req, res) => {
   const { name, age } = req.body;
+
+  // เพิ่มผู้ใช้ใหม่ลงในฐานข้อมูล Supabase
   const { data, error } = await supabase
     .from('users')
     .insert([{ name, age }]);
@@ -57,6 +59,7 @@ app.post('/api/user', async (req, res) => {
 
   res.status(201).json(data);
 });
+
 app.patch('/api/user/:id', async (req, res) => {
   const id = parseInt(req.params.id);
   const { name, age } = req.body;
