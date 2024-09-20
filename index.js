@@ -61,19 +61,29 @@ app.post('/api/user', async (req, res) => {
 });
 
 app.patch('/api/user/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
-  const { name, age } = req.body;
-  const { data, error } = await supabase
-    .from('users')
-    .update({ name, age })
-    .eq('id', id);
+  const id = parseInt(req.params.id); // รับค่า id จาก URL
+  const { name, age } = req.body; // รับข้อมูลจาก request body
 
-  if (error) {
-    return res.status(500).json({ error: error.message });
+  // ตรวจสอบว่าได้ข้อมูลที่ต้องการหรือไม่
+  if (!name && !age) {
+    return res.status(400).json({ error: 'Invalid request. Name or age is required.' });
   }
 
-  res.json(data);
+  // อัปเดตข้อมูลใน Supabase
+  const { data, error } = await supabase
+    .from('users')
+    .update({ name, age }) // อัปเดตชื่อและอายุ
+    .eq('id', id); // เงื่อนไขว่า id ต้องตรงกัน
+
+  if (error) {
+    console.error('Database update failed:', error.message); // แสดงข้อความข้อผิดพลาด
+    return res.status(500).json({ error: error.message }); // ส่ง response 500 กลับไปถ้าข้อผิดพลาดเกิดขึ้น
+  }
+
+  // ส่ง response กลับมาพร้อมกับข้อมูลที่อัปเดต
+  res.status(200).json(data);
 });
+
 app.delete('/api/user/:id', async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase
