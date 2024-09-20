@@ -37,10 +37,10 @@ app.get('/api/users', async (req, res) => {
 app.get('/api/user/:id', async (req, res) => {
   const id = parseInt(req.params.id);
   const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', id)
-    .single();
+  .from('users')
+  .select('*')
+  .order('id', { ascending: true }); // เรียงลำดับตาม id จากน้อยไปมาก
+
 
   if (error || !data) {
     return res.status(404).json({ message: 'ไม่พบผู้ใช้งาน' });
