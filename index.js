@@ -34,20 +34,19 @@ app.get('/api/users', async (req, res) => {
   res.json(data);
 });
 
-app.get('/api/user/:id', async (req, res) => {
-  const id = parseInt(req.params.id);
+app.get('/api/users', async (req, res) => {
   const { data, error } = await supabase
-  .from('users')
-  .select('*')
-  .order('id', { ascending: true }); // เรียงลำดับตาม id จากน้อยไปมาก
+    .from('users')
+    .select('*')
+    .order('id', { ascending: true }); // เรียงลำดับตาม id
 
-
-  if (error || !data) {
-    return res.status(404).json({ message: 'ไม่พบผู้ใช้งาน' });
+  if (error) {
+    return res.status(500).json({ error: error.message });
   }
-
+  
   res.json(data);
 });
+
 app.post('/api/user', async (req, res) => {
   const { name, age } = req.body;
 
