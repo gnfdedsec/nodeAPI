@@ -24,8 +24,10 @@ app.get('/', (req, res) => {
 // เส้นทางสำหรับ API
 app.get('/api/users', async (req, res) => {
   const { data, error } = await supabase
-    .from('users') // ชื่อตารางใน Supabase
-    .select('*');
+  .from('users')
+  .select('*')
+  .order('id', { ascending: true }); // เรียงลำดับตาม id
+
 
   if (error) {
     return res.status(500).json({ error: error.message });
@@ -34,19 +36,20 @@ app.get('/api/users', async (req, res) => {
   res.json(data);
 });
 
-app.get('/api/users', async (req, res) => {
+app.get('/api/user/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
   const { data, error } = await supabase
     .from('users')
     .select('*')
-    .order('id', { ascending: true }); // เรียงลำดับตาม id
+    .eq('id', id)
+    .single();
 
-  if (error) {
-    return res.status(500).json({ error: error.message });
+  if (error || !data) {
+    return res.status(404).json({ message: 'ไม่พบผู้ใช้งาน' });
   }
-  
+
   res.json(data);
 });
-
 app.post('/api/user', async (req, res) => {
   const { name, age } = req.body;
 
