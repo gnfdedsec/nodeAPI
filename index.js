@@ -45,6 +45,46 @@ app.get('/api/user/:id', async (req, res) => {
 
   res.json(data);
 });
+app.post('/api/user', async (req, res) => {
+  const { name, age } = req.body;
+  const { data, error } = await supabase
+    .from('users')
+    .insert([{ name, age }]);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.status(201).json(data);
+});
+app.patch('/api/user/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { name, age } = req.body;
+  const { data, error } = await supabase
+    .from('users')
+    .update({ name, age })
+    .eq('id', id);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.json(data);
+});
+app.delete('/api/user/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { data, error } = await supabase
+    .from('users')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.status(204).json({});
+});
+
 
 app.listen(port, () => {
   console.log(`เซิร์ฟเวอร์ทำงานบนพอร์ต ${port}`);
