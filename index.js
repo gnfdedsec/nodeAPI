@@ -67,7 +67,7 @@ app.post('/api/user', async (req, res) => {
 
 app.patch('/api/user/:id', async (req, res) => {
   const id = parseInt(req.params.id); // รับค่า id จาก URL
-  const { name, age } = req.body; // รับข้อมูลจาก request body
+  const { password  } = req.body; // รับข้อมูลจาก request body
 
   // ตรวจสอบว่าได้ข้อมูลที่ต้องการหรือไม่
   if (!name && !age) {
@@ -77,7 +77,7 @@ app.patch('/api/user/:id', async (req, res) => {
   // อัปเดตข้อมูลใน Supabase
   const { data, error } = await supabase
     .from('users')
-    .update({ name, age }) // อัปเดตชื่อและอายุ
+    .update({ password }) // อัปเดตชื่อและอายุ
     .eq('id', id); // เงื่อนไขว่า id ต้องตรงกัน
 
   if (error) {
